@@ -6,34 +6,22 @@ import {
   fetchDevices,
 } from "../utils/fetchServerUtils";
 import Loader from "../components/Loader";
-
-const KeyValuePair = ({
-  keyValue,
-  value,
-}: {
-  keyValue: string | number;
-  value: string | number;
-}) => (
-  <div className="text-normal">
-    <div className="key-value-pair-container">
-      <div className="text-name">
-        <span>{keyValue} </span>
-      </div>
-      <div className="text-value">
-        <span>{value}</span>
-      </div>
-    </div>
-  </div>
-);
+import KeyValuePair from "../components/KeyValuePair";
+import Device from "../components/Device";
 
 const SetupPage = () => {
   const [DeviceData, setDeviceData] = useState<DeviceDataType>({
     status: "Loading",
   });
   const [devices, setDevices] = useState<DeviceType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchDeviceData().then((v) => setDeviceData(v));
+    setLoading(true);
+    fetchDeviceData().then((res) => {
+      setDeviceData(res);
+      setLoading(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -86,7 +74,7 @@ const SetupPage = () => {
 
   return (
     <>
-      {DeviceData.status === "Loading" ? (
+      {loading ? (
         <Loader />
       ) : (
         <div className="main-body">
@@ -104,7 +92,13 @@ const SetupPage = () => {
                 SAVE
               </button>
               <button
-                onClick={() => fetchDevices().then((res) => setDevices(res))}
+                onClick={() => {
+                  setLoading(true);
+                  fetchDevices().then((res) => {
+                    setDevices(res);
+                    setLoading(false);
+                  });
+                }}
                 className="control-button text-normal scan-button"
               >
                 SCAN
@@ -113,60 +107,15 @@ const SetupPage = () => {
           </div>
           <div className="devices-table">
             {devices.map((device) => (
-              <div
-                key={device.id}
-                className={
-                  device.blink || device.calibrate
-                    ? "device-row device-selected"
-                    : "device-row"
-                }
-              >
-                <div className="flex-column">
-                  <button
-                    onClick={() => handleShiftUp(device)}
-                    className="text-normal no-border position-button control-button"
-                    disabled={device.position === 0}
-                    >
-                    <i className="material-icons">arrow_drop_up</i>
-                  </button>
-                  <button
-                    onClick={() => handleShiftDown(device)}
-                    className="text-normal no-border position-button control-button"
-                    disabled={device.position === devices.length - 1}
-                  >
-                    <i className="material-icons">arrow_drop_down</i>
-                  </button>
-                </div>
-                <div className="flex-column">
-                  <KeyValuePair
-                    keyValue={device.position}
-                    value={device.id.toString(16).toLocaleUpperCase()}
-                  />
-                </div>
-                <div className="device-column">
-                  <button
-                    onClick={() => calibrate(device)}
-                    className="device-control-button text-normal control-button no-border"
-                  >
-                    Calibrate
-                  </button>
-                  <button className="device-control-button text-normal control-button no-border">
-                    Reset
-                  </button>
-                  <button
-                    onClick={() => startBlink(device)}
-                    className="device-control-button text-normal control-button no-border"
-                  >
-                    Start Blink
-                  </button>
-                  <button
-                    onClick={() => stopBlink(device)}
-                    className="device-control-button text-normal control-button no-border"
-                  >
-                    Stop Blink
-                  </button>
-                </div>
-              </div>
+              <Device
+                device={device}
+                devicesLength={devices.length}
+                onCalibrate={calibrate}
+                onStartBlink={startBlink}
+                onStopBlink={stopBlink}
+                onShiftUp={handleShiftUp}
+                onShiftDown={handleShiftDown}
+              />
             ))}
           </div>
         </div>
