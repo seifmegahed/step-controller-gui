@@ -9,12 +9,14 @@ body,
 .navbar {
   background-color: #1b2128;
   height: 15vh;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20px;
   max-height: 100px;
+  position:fixed;
+  top: 0;
 }
 
 .nav-button-container {
@@ -32,7 +34,7 @@ body,
   width: 200px;
   cursor: pointer;
   transition: 1s;
-  border-top-left-radius: 20px;
+  border-top-left-radius: 30px;
 }
 
 .nav-button:hover {
@@ -85,6 +87,7 @@ body,
   flex-direction: column;
   align-items: center;
   min-width: 1200px;
+  margin-top: 15vh;
 }
 
 .control-button {
@@ -93,7 +96,25 @@ body,
   color: inherit;
   cursor: pointer;
   transition: 1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.control-button:hover {
+  background-color: #1b2128;
+}
+
+.control-button:disabled {
+  background-color: initial;
+  cursor: initial;
+  color: #75869b;
+}
+
+.control-button:hover:disabled {
+  background-color: initial;
+}
+
 
 .no-border {
   border: 0;
@@ -106,18 +127,23 @@ body,
   margin-left: 20px;
 }
 
+.position-button {
+  border-radius: 25%;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .text-normal {
   font-weight: 600;
   font-size: 14pt;
-}
-
-.control-button:hover {
-  background-color: #1b2128;
 }
 
 .key-value-pair-container {

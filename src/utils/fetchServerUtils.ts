@@ -5,7 +5,7 @@ export type DeviceDataType = {
 };
 
 export type DeviceType = {
-  id: string;
+  id: number;
   position: number;
   blink: boolean;
   calibrate: boolean;
@@ -25,13 +25,17 @@ export async function fetchDeviceData(): Promise<DeviceDataType> {
   }
 }
 
-export async function fetchDevices(): Promise<any[]> {
+export async function fetchDevices(): Promise<DeviceType[]> {
   try {
-    let res = await fetch("api/scan");
+    let res = await fetch("http://192.168.1.11:80/api/scan");
     let result = await res.json();
 
-    console.log(result);
-    return result;
+    return result.map((deviceId: number, index: number) => ({
+      id: deviceId,
+      position: index,
+      blink: false,
+      calibrate: false,
+    }));
   } catch (error) {
     console.log(error);
     return [];

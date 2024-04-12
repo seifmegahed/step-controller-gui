@@ -7,14 +7,6 @@ import {
 } from "../utils/fetchServerUtils";
 import Loader from "../components/Loader";
 
-const devicesInit = [
-  { id: "1DE3AD", position: 1, blink: false, calibrate: false },
-  { id: "1D22E2", position: 2, blink: false, calibrate: false },
-  { id: "2DE364", position: 3, blink: false, calibrate: false },
-  { id: "2EA33A", position: 4, blink: false, calibrate: false },
-  { id: "2DF1E2", position: 5, blink: false, calibrate: false },
-];
-
 const KeyValuePair = ({
   keyValue,
   value,
@@ -38,7 +30,7 @@ const SetupPage = () => {
   const [DeviceData, setDeviceData] = useState<DeviceDataType>({
     status: "Loading",
   });
-  const [devices, setDevices] = useState<DeviceType[]>(devicesInit);
+  const [devices, setDevices] = useState<DeviceType[]>([]);
 
   useEffect(() => {
     fetchDeviceData().then((v) => setDeviceData(v));
@@ -78,8 +70,8 @@ const SetupPage = () => {
     setDevices((prev) =>
       prev
         .filter((prevDevice) => prevDevice.position !== device.position)
-        .toSpliced(device.position - 2, 0, device)
-        .map((temp, index) => ({ ...temp, position: index + 1 }))
+        .toSpliced(device.position - 1, 0, device)
+        .map((temp, index) => ({ ...temp, position: index }))
     );
   };
 
@@ -87,8 +79,8 @@ const SetupPage = () => {
     setDevices((prev) =>
       prev
         .filter((prevDevice) => prevDevice.position !== device.position)
-        .toSpliced(device.position, 0, device)
-        .map((temp, index) => ({ ...temp, position: index + 1 }))
+        .toSpliced(device.position + 1, 0, device)
+        .map((temp, index) => ({ ...temp, position: index }))
     );
   };
 
@@ -107,12 +99,12 @@ const SetupPage = () => {
                 value={DeviceData.ip ?? ""}
               />
             </div>
-            <div>
+            <div className="flex-row">
               <button className="control-button text-normal scan-button">
                 SAVE
               </button>
               <button
-                onClick={fetchDevices}
+                onClick={() => fetchDevices().then((res) => setDevices(res))}
                 className="control-button text-normal scan-button"
               >
                 SCAN
@@ -133,18 +125,23 @@ const SetupPage = () => {
                   <button
                     onClick={() => handleShiftUp(device)}
                     className="text-normal no-border position-button control-button"
-                  >
-                    +
+                    disabled={device.position === 0}
+                    >
+                    <i className="material-icons">arrow_drop_up</i>
                   </button>
                   <button
                     onClick={() => handleShiftDown(device)}
                     className="text-normal no-border position-button control-button"
+                    disabled={device.position === devices.length - 1}
                   >
-                    -
+                    <i className="material-icons">arrow_drop_down</i>
                   </button>
                 </div>
                 <div className="flex-column">
-                  <KeyValuePair keyValue={device.position} value={device.id} />
+                  <KeyValuePair
+                    keyValue={device.position}
+                    value={device.id.toString(16).toLocaleUpperCase()}
+                  />
                 </div>
                 <div className="device-column">
                   <button
