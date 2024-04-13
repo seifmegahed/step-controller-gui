@@ -4,6 +4,9 @@ import {
   DeviceDataType,
   fetchDeviceData,
   fetchDevices,
+  sendBlink,
+  sendData,
+  sendChangeArray,
 } from "../utils/fetchServerUtils";
 import Loader from "../components/Loader";
 import KeyValuePair from "../components/KeyValuePair";
@@ -11,7 +14,7 @@ import Device from "../components/Device";
 
 const SetupPage = () => {
   const [DeviceData, setDeviceData] = useState<DeviceDataType>({
-    status: "Loading",
+    id: 0,
   });
   const [devices, setDevices] = useState<DeviceType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,11 +27,8 @@ const SetupPage = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(devices);
-  }, [devices]);
-
   const startBlink = (device: DeviceType) => {
+    sendBlink(device.id, true);
     setDevices((prev) =>
       prev.map((prevDevice) =>
         prevDevice.id === device.id ? { ...device, blink: true } : prevDevice
@@ -37,6 +37,7 @@ const SetupPage = () => {
   };
 
   const stopBlink = (device: DeviceType) => {
+    sendBlink(device.id, false);
     setDevices((prev) =>
       prev.map((prevDevice) =>
         prevDevice.id === device.id ? { ...device, blink: false } : prevDevice
@@ -55,21 +56,29 @@ const SetupPage = () => {
   };
 
   const handleShiftUp = (device: DeviceType) => {
-    setDevices((prev) =>
-      prev
+    setLoading(true);
+    setDevices((prev) => {
+      const newArray = prev
         .filter((prevDevice) => prevDevice.position !== device.position)
         .toSpliced(device.position - 1, 0, device)
-        .map((temp, index) => ({ ...temp, position: index }))
-    );
+        .map((temp, index) => ({ ...temp, position: index }));
+      sendChangeArray(newArray);
+      return newArray;
+    });
+    setLoading(false);
   };
 
   const handleShiftDown = (device: DeviceType) => {
-    setDevices((prev) =>
-      prev
+    setLoading(true);
+    setDevices((prev) => {
+      const newArray = prev
         .filter((prevDevice) => prevDevice.position !== device.position)
         .toSpliced(device.position + 1, 0, device)
-        .map((temp, index) => ({ ...temp, position: index }))
-    );
+        .map((temp, index) => ({ ...temp, position: index }));
+      sendChangeArray(newArray);
+      return newArray;
+    });
+    setLoading(false);
   };
 
   return (
@@ -80,7 +89,10 @@ const SetupPage = () => {
         <div className="main-body">
           <div className="controls-container">
             <div>
-              <KeyValuePair keyValue="Status:" value={DeviceData.status} />
+              <KeyValuePair
+                keyValue="Device ID:"
+                value={DeviceData.id.toString(16).toLocaleUpperCase()}
+              />
               <KeyValuePair keyValue="SSID:" value={DeviceData.ssid ?? ""} />
               <KeyValuePair
                 keyValue="IP Address:"
@@ -110,7 +122,7 @@ const SetupPage = () => {
               <Device
                 device={device}
                 devicesLength={devices.length}
-                onCalibrate={calibrate}
+                onCalibrate={sendData}
                 onStartBlink={startBlink}
                 onStopBlink={stopBlink}
                 onShiftUp={handleShiftUp}

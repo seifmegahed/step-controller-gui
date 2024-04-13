@@ -1,5 +1,5 @@
 export type DeviceDataType = {
-  status: string;
+  id: number;
   ssid?: string;
   ip?: string;
 };
@@ -20,14 +20,14 @@ export async function fetchDeviceData(): Promise<DeviceDataType> {
   } catch (error) {
     console.log(error);
     return {
-      status: "Internal Error",
+      id: 0,
     };
   }
 }
 
 export async function fetchDevices(): Promise<DeviceType[]> {
   try {
-    let res = await fetch("http://192.168.1.11:80/api/scan");
+    let res = await fetch("api/scan");
     let result = await res.json();
 
     return result.map((deviceId: number, index: number) => ({
@@ -51,6 +51,42 @@ export const sendData = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ a: 1, b: "Textual content" }),
+    });
+
+    const content = await rawResponse.json();
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendBlink = async (deviceId: number, state: boolean) => {
+  try {
+    const rawResponse = await fetch(`api/${state ? "start" : `stop`}-blink`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ a: deviceId }),
+    });
+
+    const content = await rawResponse.json();
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendChangeArray = async (devices: DeviceDataType[]) => {
+  try {
+    const rawResponse = await fetch(`api/change-arrangement`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ a: devices.map((device) => device.id), b: devices.length }),
     });
 
     const content = await rawResponse.json();
