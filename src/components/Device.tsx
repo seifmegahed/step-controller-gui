@@ -69,12 +69,14 @@ const Device = ({
           Reset
         </button>
         <button
+          disabled={master}
           onClick={() => handleStartBlink(device)}
           className="device-control-button text-normal control-button no-border"
         >
           Start Blink
         </button>
         <button
+          disabled={master}
           onClick={() => handleStopBlink(device)}
           className="device-control-button text-normal control-button no-border"
         >

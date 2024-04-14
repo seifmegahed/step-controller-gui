@@ -13,11 +13,17 @@ import Loader from "../components/Loader";
 import KeyValuePair from "../components/KeyValuePair";
 import Device from "../components/Device";
 
-const SetupPage = () => {
+const SetupPage = ({
+  initDevices,
+  updateDevices,
+}: {
+  initDevices: DeviceType[];
+  updateDevices: (devices: DeviceType[]) => void;
+}) => {
   const [deviceData, setDeviceData] = useState<DeviceDataType>({
     id: 0,
   });
-  const [devices, setDevices] = useState<DeviceType[]>([]);
+  const [devices, setDevices] = useState<DeviceType[]>(initDevices);
   const [loading, setLoading] = useState<boolean>(false);
   const [arrangementChanged, setArrangementChanged] = useState<boolean>(false);
 
@@ -120,6 +126,7 @@ const SetupPage = () => {
                   setLoading(true);
                   fetchDevices().then((res) => {
                     setDevices(res);
+                    updateDevices(res);
                     setLoading(false);
                   });
                 }}

@@ -86,7 +86,10 @@ export const sendChangeArray = async (devices: DeviceDataType[]) => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ a: devices.map((device) => device.id), b: devices.length }),
+      body: JSON.stringify({
+        a: devices.map((device) => device.id),
+        b: devices.length,
+      }),
     });
 
     const content = await rawResponse.json();
@@ -101,6 +104,27 @@ export const sendSave = async () => {
     const rawResponse = await fetch(`api/save`);
 
     const content = rawResponse.status;
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setColors = async (colors: number[]) => {
+  try {
+    const rawResponse = await fetch(`api/set-colors`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        a: colors,
+        b: colors.length,
+      }),
+    });
+
+    const content = await rawResponse.status;
     console.log(content);
   } catch (error) {
     console.log(error);

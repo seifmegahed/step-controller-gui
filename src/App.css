@@ -203,3 +203,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.program-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  margin-top: 15vh;
+  height: 85vh;
+}
