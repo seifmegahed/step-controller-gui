@@ -27,7 +27,7 @@ export async function fetchDeviceData(): Promise<DeviceDataType> {
 
 export async function fetchDevices(): Promise<DeviceType[]> {
   try {
-    let res = await fetch("api/scan");
+    let res = await fetch("http://192.168.1.14/api/scan");
     let result = await res.json();
 
     return result.map((deviceId: number, index: number) => ({
@@ -53,7 +53,7 @@ export const sendData = async () => {
       body: JSON.stringify({ a: 1, b: "Textual content" }),
     });
 
-    const content = await rawResponse.json();
+    const content = rawResponse.status;
     console.log(content);
   } catch (error) {
     console.log(error);
@@ -71,7 +71,7 @@ export const sendBlink = async (deviceId: number, state: boolean) => {
       body: JSON.stringify({ a: deviceId }),
     });
 
-    const content = await rawResponse.json();
+    const content = await rawResponse;
     console.log(content);
   } catch (error) {
     console.log(error);
@@ -90,6 +90,17 @@ export const sendChangeArray = async (devices: DeviceDataType[]) => {
     });
 
     const content = await rawResponse.json();
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendSave = async () => {
+  try {
+    const rawResponse = await fetch(`api/save`);
+
+    const content = rawResponse.status;
     console.log(content);
   } catch (error) {
     console.log(error);

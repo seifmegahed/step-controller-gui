@@ -2,6 +2,7 @@ import { DeviceType } from "../utils/fetchServerUtils";
 import KeyValuePair from "./KeyValuePair";
 
 type DeviceComponentType = {
+  master: boolean;
   device: DeviceType;
   devicesLength: number;
   onShiftUp: (device: DeviceType) => void;
@@ -12,6 +13,7 @@ type DeviceComponentType = {
 };
 
 const Device = ({
+  master,
   device,
   devicesLength,
   onShiftUp,

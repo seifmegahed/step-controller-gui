@@ -7,17 +7,19 @@ import {
   sendBlink,
   sendData,
   sendChangeArray,
+  sendSave,
 } from "../utils/fetchServerUtils";
 import Loader from "../components/Loader";
 import KeyValuePair from "../components/KeyValuePair";
 import Device from "../components/Device";
 
 const SetupPage = () => {
-  const [DeviceData, setDeviceData] = useState<DeviceDataType>({
+  const [deviceData, setDeviceData] = useState<DeviceDataType>({
     id: 0,
   });
   const [devices, setDevices] = useState<DeviceType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [arrangementChanged, setArrangementChanged] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
@@ -26,6 +28,15 @@ const SetupPage = () => {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    console.log("here");
+    if (arrangementChanged) {
+      console.log(2);
+      sendChangeArray(devices);
+      setArrangementChanged(false);
+    }
+  }, [devices]);
 
   const startBlink = (device: DeviceType) => {
     sendBlink(device.id, true);
@@ -57,27 +68,25 @@ const SetupPage = () => {
 
   const handleShiftUp = (device: DeviceType) => {
     setLoading(true);
-    setDevices((prev) => {
-      const newArray = prev
+    setArrangementChanged(true);
+    setDevices((prev) =>
+      prev
         .filter((prevDevice) => prevDevice.position !== device.position)
         .toSpliced(device.position - 1, 0, device)
-        .map((temp, index) => ({ ...temp, position: index }));
-      sendChangeArray(newArray);
-      return newArray;
-    });
+        .map((temp, index) => ({ ...temp, position: index }))
+    );
     setLoading(false);
   };
 
   const handleShiftDown = (device: DeviceType) => {
     setLoading(true);
-    setDevices((prev) => {
-      const newArray = prev
+    setArrangementChanged(true);
+    setDevices((prev) =>
+      prev
         .filter((prevDevice) => prevDevice.position !== device.position)
         .toSpliced(device.position + 1, 0, device)
-        .map((temp, index) => ({ ...temp, position: index }));
-      sendChangeArray(newArray);
-      return newArray;
-    });
+        .map((temp, index) => ({ ...temp, position: index }))
+    );
     setLoading(false);
   };
 
@@ -91,16 +100,19 @@ const SetupPage = () => {
             <div>
               <KeyValuePair
                 keyValue="Device ID:"
-                value={DeviceData.id.toString(16).toLocaleUpperCase()}
+                value={deviceData.id.toString(16).toLocaleUpperCase()}
               />
-              <KeyValuePair keyValue="SSID:" value={DeviceData.ssid ?? ""} />
+              <KeyValuePair keyValue="SSID:" value={deviceData.ssid ?? ""} />
               <KeyValuePair
                 keyValue="IP Address:"
-                value={DeviceData.ip ?? ""}
+                value={deviceData.ip ?? ""}
               />
             </div>
             <div className="flex-row">
-              <button className="control-button text-normal scan-button">
+              <button
+                onClick={sendSave}
+                className="control-button text-normal scan-button"
+              >
                 SAVE
               </button>
               <button
@@ -120,6 +132,8 @@ const SetupPage = () => {
           <div className="devices-table">
             {devices.map((device) => (
               <Device
+                key={device.id}
+                master={device.id === deviceData.id}
                 device={device}
                 devicesLength={devices.length}
                 onCalibrate={sendData}
