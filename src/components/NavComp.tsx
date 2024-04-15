@@ -10,14 +10,33 @@ const NavComp = ({ page, changePage }: NavCompProps) => {
       <div className={"nav-button-container"}>
         <button
           className={
+            page === "playback"
+              ? "nav-button nav-button-selected text-normal"
+              : "nav-button text-normal"
+          }
+          onClick={() => changePage("playback")}
+        >
+          Playback
+        </button>
+        <button
+          className={
+            page === "frames"
+              ? "nav-button nav-button-selected text-normal"
+              : "nav-button text-normal"
+          }
+          onClick={() => changePage("frames")}
+        >
+          Frames
+        </button>
+        <button
+          className={
             page === "program"
               ? "nav-button nav-button-selected text-normal"
               : "nav-button text-normal"
           }
-          onClick={() => changePage("program")}
-          id="program"
+          onClick={() => changePage("arrangement")}
         >
-          Program
+          Arrangement
         </button>
         <button
           className={
@@ -25,7 +44,6 @@ const NavComp = ({ page, changePage }: NavCompProps) => {
               ? "nav-button nav-button-selected text-normal"
               : "nav-button text-normal"
           }
-          id="setup"
           onClick={() => changePage("setup")}
         >
           Setup

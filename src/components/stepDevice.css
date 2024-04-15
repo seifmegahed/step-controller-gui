@@ -1,9 +1,9 @@
-
 .step-device-main-div {
   height: 60px;
   width: 60px;
   background-color: #222;
   padding: 10px;
+  cursor: pointer;
 }
 
 .step-device-inner-div {

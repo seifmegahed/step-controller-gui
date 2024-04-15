@@ -6,6 +6,10 @@ body,
   margin: 0;
 }
 
+html {
+  scroll-snap-type: y mandatory;
+}
+
 .navbar {
   background-color: #1b2128;
   height: 15vh;
@@ -15,7 +19,8 @@ body,
   justify-content: space-between;
   align-items: center;
   max-height: 100px;
-  position:fixed;
+  position: fixed;
+  z-index: 100;
   top: 0;
 }
 
@@ -115,7 +120,6 @@ body,
   background-color: initial;
 }
 
-
 .no-border {
   border: 0;
 }
@@ -204,11 +208,102 @@ a {
   text-decoration: none;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .program-body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  padding-top: 15vh;
+  height: 85vh;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.playback-body {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+  width: 100vw;
+  padding-top: 15vh;
+  height: 85vh;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.grid-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  margin-top: 15vh;
-  height: 85vh;
+}
+.step-grid {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+h1 {
+  padding-left: 20px;
+}
+
+.program-controls {
+  position: absolute;
+  z-index: 1;
+  top: 25vh;
+  left: 10vw;
+  display: flex;
+  align-items: center;
+}
+
+.rows-button {
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+}
+
+.rows-button:disabled {
+  color: #fff;
+}
+
+.frame-button {
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+}
+
+.floating-button {
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  background-color: #75869b;
+  color: #1b2128;
+  font-size: 30pt;
+  position: relative;
+}
+
+.floating-button:hover {
+  background-color: #fff;
+  font-size: 34 pt;
+  height: 80px;
+  width: 80px;
+}
+
+.frame-save {
+  position: fixed;
+  bottom: 5vh;
+  right: 5vw;
+}
+
+.frame-delete {
+  position: fixed;
+  bottom: 20vh;
+  right: 5vw;
+}
+
+
+.inherit {
+  font-size: inherit;
 }

@@ -27,7 +27,7 @@ export async function fetchDeviceData(): Promise<DeviceDataType> {
 
 export async function fetchDevices(): Promise<DeviceType[]> {
   try {
-    let res = await fetch("http://192.168.1.14/api/scan");
+    let res = await fetch("api/scan");
     let result = await res.json();
 
     return result.map((deviceId: number, index: number) => ({
@@ -124,7 +124,7 @@ export const setColors = async (colors: number[]) => {
       }),
     });
 
-    const content = await rawResponse.status;
+    const content = rawResponse.status;
     console.log(content);
   } catch (error) {
     console.log(error);

@@ -36,7 +36,6 @@ const SetupPage = ({
   }, []);
 
   useEffect(() => {
-    console.log("here");
     if (arrangementChanged) {
       console.log(2);
       sendChangeArray(devices);

@@ -3,25 +3,36 @@ import "./App.css";
 
 import NavComp from "./components/NavComp";
 import SetupPage from "./pages/SetupPage";
-import ProgramPage from "./pages/ProgramPage";
+import ArrangementPage from "./pages/ArrangementPage";
 import { DeviceType } from "./utils/fetchServerUtils";
+import FramesPage from "./pages/FramesPage";
+import PlaybackPage from "./pages/PlayBackPage";
 
 const App = () => {
-  const [page, setPage] = useState("program");
+  const [page, setPage] = useState("setup");
+  const [rows, setRows] = useState<number>(4);
   const [devices, setDevices] = useState<DeviceType[]>([
-    // { id: 0, position: 0, blink: false, calibrate: false },
-    // { id: 1, position: 1, blink: false, calibrate: false },
-    // { id: 2, position: 2, blink: false, calibrate: false },
-    // { id: 3, position: 3, blink: false, calibrate: false },
+    { id: 0, position: 0, blink: false, calibrate: false },
+    { id: 1, position: 1, blink: false, calibrate: false },
+    { id: 2, position: 2, blink: false, calibrate: false },
+    { id: 3, position: 3, blink: false, calibrate: false },
   ]);
 
   return (
     <>
       <NavComp page={page} changePage={setPage} />
+      {page === "playback" && (
+        <PlaybackPage />
+      )}
+      {page === "frames" && (
+        <FramesPage devices={devices} _rows={rows} />
+      )}
+      {page === "arrangement" && (
+        <ArrangementPage devices={devices} _rows={rows} updateRows={setRows} />
+      )}
       {page === "setup" && (
         <SetupPage initDevices={devices} updateDevices={setDevices} />
       )}
-      {page === "program" && <ProgramPage devices={devices} />}
     </>
   );
 };
