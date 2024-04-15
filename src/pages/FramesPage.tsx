@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { DeviceType } from "../utils/fetchServerUtils";
+import { DeviceType, fetchFrames, sendFrames } from "../utils/fetchServerUtils";
 import { colorsRGB } from "../utils/colors";
 
 import StepDevice from "../components/StepDevice";
+import Loader from "../components/Loader";
 
 const FramesPage = ({
   devices,
@@ -14,9 +15,17 @@ const FramesPage = ({
 }) => {
   const [frame, setFrame] = useState<number>(0);
   const [changed, setChanged] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [frames, setFrames] = useState<number[][]>([devices.map(() => 2)]);
+  const [frames, setFrames] = useState<number[][]>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchFrames().then((result) => {
+      result.length ? setFrames(result) : setFrames([devices.map(() => 2)]);
+      setLoading(false);
+    });
+  }, []);
 
   const addFrame = () => {
     setChanged(true);
@@ -66,7 +75,9 @@ const FramesPage = ({
 
   const saveFrames = () => {
     setChanged(false);
-    console.log(frames);
+    setLoading(true);
+    sendFrames(frames);
+    setLoading(false);
   };
 
   const deleteFrame = (_frameIndex: number) => {
@@ -75,62 +86,68 @@ const FramesPage = ({
     setFrames((prev) => prev.filter((_frame, index) => _frameIndex !== index));
   };
   return (
-    <div className="program-body">
-      <div className="program-controls">
-        <span className="text-normal medium">Frame {frame + 1}</span>
-      </div>
-      <button
-        disabled={frame === 0}
-        onClick={decrementFrame}
-        className="control-button no-border frame-button"
-      >
-        <i className="material-icons text-normal large">chevron_left</i>
-      </button>
-      <div
-        className="step-grid"
-        style={{ gridTemplateColumns: `repeat(${_rows}, 1fr)` }}
-      >
-        {frames[frame].map((color, index) => (
-          <div key={"device" + index}>
-            <StepDevice
-              color={color}
-              colorUp={() => incrementColor(index)}
-              colorDown={() => decrementColor(index)}
-            />
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="program-body">
+          <div className="program-controls">
+            <span className="text-normal medium">Frame {frame + 1}</span>
           </div>
-        ))}
-      </div>
+          <button
+            disabled={frame === 0}
+            onClick={decrementFrame}
+            className="control-button no-border frame-button"
+          >
+            <i className="material-icons text-normal large">chevron_left</i>
+          </button>
+          <div
+            className="step-grid"
+            style={{ gridTemplateColumns: `repeat(${_rows}, 1fr)` }}
+          >
+            {frames[frame].map((color, index) => (
+              <div key={"device" + index}>
+                <StepDevice
+                  color={color}
+                  colorUp={() => incrementColor(index)}
+                  colorDown={() => decrementColor(index)}
+                />
+              </div>
+            ))}
+          </div>
 
-      <button
-        onClick={incrementFrame}
-        className="control-button no-border frame-button"
-        disabled={frames.length === 32}
-      >
-        <i className="material-icons text-normal large">
-          {frame === frames.length - 1 ? "add" : "chevron_right"}
-        </i>
-      </button>
-      {changed && (
-        <div className="frame-save">
           <button
-            onClick={saveFrames}
-            className="control-button no-border floating-button"
+            onClick={incrementFrame}
+            className="control-button no-border frame-button"
+            disabled={frames.length === 32}
           >
-            <i className="material-icons inherit">save</i>
+            <i className="material-icons text-normal large">
+              {frame === frames.length - 1 ? "add" : "chevron_right"}
+            </i>
           </button>
+          {changed && (
+            <div className="frame-save">
+              <button
+                onClick={saveFrames}
+                className="control-button no-border floating-button"
+              >
+                <i className="material-icons inherit">save</i>
+              </button>
+            </div>
+          )}
+          {frames.length !== 1 && (
+            <div className="frame-delete">
+              <button
+                onClick={() => deleteFrame(frame)}
+                className="control-button no-border floating-button"
+              >
+                <i className="material-icons inherit">delete</i>
+              </button>
+            </div>
+          )}
         </div>
       )}
-      {frames.length !== 1 && (
-        <div className="frame-delete">
-          <button
-            onClick={() => deleteFrame(frame)}
-            className="control-button no-border floating-button"
-          >
-            <i className="material-icons inherit">delete</i>
-          </button>
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 

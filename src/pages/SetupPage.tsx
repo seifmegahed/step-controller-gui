@@ -8,6 +8,7 @@ import {
   sendData,
   sendChangeArray,
   sendSave,
+  sendPause,
 } from "../utils/fetchServerUtils";
 import Loader from "../components/Loader";
 import KeyValuePair from "../components/KeyValuePair";
@@ -95,6 +96,16 @@ const SetupPage = ({
     setLoading(false);
   };
 
+  const handleScan = () => {
+    setLoading(true);
+    sendPause();
+    fetchDevices().then((res) => {
+      setDevices(res);
+      updateDevices(res);
+      setLoading(false);
+    });
+  };
+
   return (
     <>
       {loading ? (
@@ -121,14 +132,7 @@ const SetupPage = ({
                 SAVE
               </button>
               <button
-                onClick={() => {
-                  setLoading(true);
-                  fetchDevices().then((res) => {
-                    setDevices(res);
-                    updateDevices(res);
-                    setLoading(false);
-                  });
-                }}
+                onClick={handleScan}
                 className="control-button text-normal scan-button"
               >
                 SCAN

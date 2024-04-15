@@ -42,6 +42,18 @@ export async function fetchDevices(): Promise<DeviceType[]> {
   }
 }
 
+export async function fetchFrames(): Promise<number[][]> {
+  try {
+    let res = await fetch("api/fetch-frames");
+    let result = await res.json();
+
+    return result;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 export const sendData = async () => {
   try {
     const rawResponse = await fetch("api/data", {
@@ -71,7 +83,7 @@ export const sendBlink = async (deviceId: number, state: boolean) => {
       body: JSON.stringify({ a: deviceId }),
     });
 
-    const content = await rawResponse;
+    const content = rawResponse;
     console.log(content);
   } catch (error) {
     console.log(error);
@@ -99,9 +111,75 @@ export const sendChangeArray = async (devices: DeviceDataType[]) => {
   }
 };
 
+export const sendFrames = async (frames: number[][]) => {
+  try {
+    const rawResponse = await fetch(`api/save-frames`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        a: frames,
+        b: frames.length,
+        c: frames[0].length,
+      }),
+    });
+
+    const content = rawResponse;
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const sendSave = async () => {
   try {
     const rawResponse = await fetch(`api/save`);
+
+    const content = rawResponse.status;
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendPlay = async () => {
+  try {
+    const rawResponse = await fetch(`api/play`);
+
+    const content = rawResponse.status;
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendPause = async () => {
+  try {
+    const rawResponse = await fetch(`api/pause`);
+
+    const content = rawResponse.status;
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendSpeedUp = async () => {
+  try {
+    const rawResponse = await fetch(`api/speed-up`);
+
+    const content = rawResponse.status;
+    console.log(content);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendSlowDown = async () => {
+  try {
+    const rawResponse = await fetch(`api/slow-down`);
 
     const content = rawResponse.status;
     console.log(content);
