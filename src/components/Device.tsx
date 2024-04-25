@@ -26,7 +26,7 @@ const Device = ({
   const handleShiftDown = onShiftDown;
   const handleStartBlink = onStartBlink;
   const handleStopBlink = onStopBlink;
-  const handleCalibrate = onCalibrate;
+
   return (
     <div
       key={device.id}
@@ -36,51 +36,43 @@ const Device = ({
           : "device-row"
       }
     >
-      <div className="flex-column">
-        <button
-          onClick={() => handleShiftUp(device)}
-          className="text-normal no-border position-button control-button"
-          disabled={device.position === 0}
-        >
-          <i className="material-icons">arrow_drop_up</i>
-        </button>
-        <button
-          onClick={() => handleShiftDown(device)}
-          className="text-normal no-border position-button control-button"
-          disabled={device.position === devicesLength - 1}
-        >
-          <i className="material-icons">arrow_drop_down</i>
-        </button>
+      <div className="flex-row align-center gap-20">
+        <div className="flex-column">
+          <button
+            onClick={() => handleShiftUp(device)}
+            className="text-normal no-border position-button control-button"
+            disabled={device.position === 0}
+          >
+            <i className="material-icons">arrow_drop_up</i>
+          </button>
+          <button
+            onClick={() => handleShiftDown(device)}
+            className="text-normal no-border position-button control-button"
+            disabled={device.position === devicesLength - 1}
+          >
+            <i className="material-icons">arrow_drop_down</i>
+          </button>
+        </div>
+        <div className="flex-column">
+          <KeyValuePair
+            keyValue={device.position}
+            value={device.id.toString(16).toLocaleUpperCase()}
+          />
+        </div>
       </div>
-      <div className="flex-column">
-        <KeyValuePair
-          keyValue={device.position}
-          value={device.id.toString(16).toLocaleUpperCase()}
-        />
-      </div>
+
       <div className="device-column">
         <button
-          onClick={() => handleCalibrate(device)}
+          disabled={master}
+          onClick={() =>
+            device.blink ? handleStopBlink(device) : handleStartBlink(device)
+          }
           className="device-control-button text-normal control-button no-border"
         >
-          Calibrate
+          Blink
         </button>
         <button className="device-control-button text-normal control-button no-border">
           Reset
-        </button>
-        <button
-          disabled={master}
-          onClick={() => handleStartBlink(device)}
-          className="device-control-button text-normal control-button no-border"
-        >
-          Start Blink
-        </button>
-        <button
-          disabled={master}
-          onClick={() => handleStopBlink(device)}
-          className="device-control-button text-normal control-button no-border"
-        >
-          Stop Blink
         </button>
       </div>
     </div>

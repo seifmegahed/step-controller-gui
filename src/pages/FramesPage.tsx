@@ -6,6 +6,8 @@ import { colorsRGB } from "../utils/colors";
 import StepDevice from "../components/StepDevice";
 import Loader from "../components/Loader";
 
+const maxNumberOfFrames = 128;
+
 const FramesPage = ({
   devices,
   _rows,
@@ -27,17 +29,34 @@ const FramesPage = ({
     });
   }, []);
 
-  const addFrame = () => {
+  const addFrame = (frameIndex: number) => {
     setChanged(true);
-    setFrames((prev) => [...prev, devices.map(() => 2)]);
+    var newFrames: number[][] = [];
+    setFrames((prev) => {
+      prev.forEach((_frame, _index) => {
+        newFrames.push(_frame);
+        if (_index === frameIndex) newFrames.push(devices.map(() => 2));
+      });
+      return newFrames;
+    });
+    incrementFrame();
+  };
+
+  const copyFrame = (frameIndex: number) => {
+    setChanged(true);
+    var newFrames: number[][] = [];
+    setFrames((prev) => {
+      prev.forEach((_frame, _index) => {
+        newFrames.push(_frame);
+        if (_index === frameIndex) newFrames.push(_frame);
+      });
+      return newFrames;
+    });
+    incrementFrame();
   };
 
   const decrementFrame = () => setFrame((prev) => prev - 1);
-
-  const incrementFrame = () => {
-    frame === frames.length - 1 && addFrame();
-    setFrame((prev) => prev + 1);
-  };
+  const incrementFrame = () => setFrame((prev) => prev + 1);
 
   const incrementColor = (_deviceIndex: number) => {
     setChanged(true);
@@ -115,16 +134,31 @@ const FramesPage = ({
               </div>
             ))}
           </div>
-
-          <button
-            onClick={incrementFrame}
-            className="control-button no-border frame-button"
-            disabled={frames.length === 32}
-          >
-            <i className="material-icons text-normal large">
-              {frame === frames.length - 1 ? "add" : "chevron_right"}
-            </i>
-          </button>
+          <div className="flex-column gap-20">
+            <button
+              onClick={() => copyFrame(frame)}
+              className="control-button no-border frame-button"
+              disabled={frames.length === maxNumberOfFrames}
+            >
+              <i className="material-icons text-normal medium-large">
+                content_copy
+              </i>
+            </button>
+            <button
+              onClick={incrementFrame}
+              className="control-button no-border frame-button"
+              disabled={frame === frames.length - 1}
+            >
+              <i className="material-icons text-normal large">chevron_right</i>
+            </button>
+            <button
+              onClick={() => addFrame(frame)}
+              className="control-button no-border frame-button"
+              disabled={frames.length === maxNumberOfFrames}
+            >
+              <i className="material-icons text-normal large">add</i>
+            </button>
+          </div>
           {changed && (
             <div className="frame-save">
               <button

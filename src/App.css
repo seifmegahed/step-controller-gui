@@ -180,6 +180,10 @@ html {
   font-size: 20pt;
 }
 
+.medium-large {
+  font-size: 28pt;
+}
+
 .program-input {
   background-color: #efefef;
   border: 0;
@@ -210,6 +214,14 @@ a {
 
 .justify-center {
   justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.gap-20 {
+  gap: 20px;
 }
 
 .program-body {
@@ -294,16 +306,19 @@ h1 {
 .frame-save {
   position: fixed;
   bottom: 5vh;
-  right: 5vw;
+  right: 2vw;
 }
 
 .frame-delete {
   position: fixed;
   bottom: 20vh;
-  right: 5vw;
+  right: 2vw;
 }
-
 
 .inherit {
   font-size: inherit;
+}
+
+.display-none {
+  display: none;
 }
