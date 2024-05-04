@@ -20,10 +20,10 @@ const App = () => {
   }, [play]);
 
   const [devices, setDevices] = useState<DeviceType[]>([
-    // { id: 0, position: 0, blink: false, calibrate: false },
-    // { id: 1, position: 1, blink: false, calibrate: false },
-    // { id: 2, position: 2, blink: false, calibrate: false },
-    // { id: 3, position: 3, blink: false, calibrate: false },
+    { id: 0, position: 0, blink: false, calibrate: false },
+    { id: 1, position: 1, blink: false, calibrate: false },
+    { id: 2, position: 2, blink: false, calibrate: false },
+    { id: 3, position: 3, blink: false, calibrate: false },
   ]);
 
   return (

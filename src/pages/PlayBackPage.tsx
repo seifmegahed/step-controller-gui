@@ -1,21 +1,32 @@
+import { FastForward, FastRewind, Pause, PlayArrow } from "@mui/icons-material";
 import { sendSlowDown, sendSpeedUp } from "../utils/fetchServerUtils";
 
-const PlaybackPage = ({play, updatePlay}:{play: boolean; updatePlay: () => void}) => {
+const PlaybackPage = ({
+  play,
+  updatePlay,
+}: {
+  play: boolean;
+  updatePlay: () => void;
+}) => {
   return (
     <div className="playback-body">
-      <button onClick={sendSlowDown} className="control-button floating-button play-pause">
-        <i className="material-icons text-normal inherit">fast_rewind</i>
+      <button
+        onClick={sendSlowDown}
+        className="control-button floating-button play-pause"
+      >
+        <FastRewind sx={{fontSize: "32pt"}} />
       </button>
       <button
         onClick={updatePlay}
         className="control-button floating-button play-pause"
       >
-        <i className="material-icons text-normal inherit">
-          {play ? "play_arrow" : "pause"}
-        </i>
+        {play ? <PlayArrow sx={{fontSize: "32pt"}} /> : <Pause sx={{fontSize: "32pt"}} />}
       </button>
-      <button onClick={sendSpeedUp} className="control-button floating-button play-pause">
-        <i className="material-icons text-normal inherit">fast_forward</i>
+      <button
+        onClick={sendSpeedUp}
+        className="control-button floating-button play-pause"
+      >
+      <FastForward sx={{fontSize: "32pt"}} />
       </button>
     </div>
   );

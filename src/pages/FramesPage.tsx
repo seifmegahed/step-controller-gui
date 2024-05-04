@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 
+import {
+  Add,
+  ChevronLeft,
+  ChevronRight,
+  ContentCopy,
+  Delete,
+  Save,
+} from "@mui/icons-material";
+
 import { DeviceType, fetchFrames, sendFrames } from "../utils/fetchServerUtils";
 import { colorsRGB } from "../utils/colors";
 
@@ -118,7 +127,7 @@ const FramesPage = ({
             onClick={decrementFrame}
             className="control-button no-border frame-button"
           >
-            <i className="material-icons text-normal large">chevron_left</i>
+            <ChevronLeft className="text-normal" sx={{ fontSize: "36pt" }} />
           </button>
           <div
             className="step-grid"
@@ -140,23 +149,21 @@ const FramesPage = ({
               className="control-button no-border frame-button"
               disabled={frames.length === maxNumberOfFrames}
             >
-              <i className="material-icons text-normal medium-large">
-                content_copy
-              </i>
+              <ContentCopy className="text-normal" sx={{ fontSize: "26pt" }} />
             </button>
             <button
               onClick={incrementFrame}
               className="control-button no-border frame-button"
               disabled={frame === frames.length - 1}
             >
-              <i className="material-icons text-normal large">chevron_right</i>
+              <ChevronRight className="text-normal" sx={{ fontSize: "36pt" }} />
             </button>
             <button
               onClick={() => addFrame(frame)}
               className="control-button no-border frame-button"
               disabled={frames.length === maxNumberOfFrames}
             >
-              <i className="material-icons text-normal large">add</i>
+              <Add className="text-normal" sx={{ fontSize: "30pt" }} />
             </button>
           </div>
           {changed && (
@@ -165,7 +172,7 @@ const FramesPage = ({
                 onClick={saveFrames}
                 className="control-button no-border floating-button"
               >
-                <i className="material-icons inherit">save</i>
+                <Save className="text-normal" sx={{ fontSize: "30pt" }} />
               </button>
             </div>
           )}
@@ -175,7 +182,7 @@ const FramesPage = ({
                 onClick={() => deleteFrame(frame)}
                 className="control-button no-border floating-button"
               >
-                <i className="material-icons inherit">delete</i>
+                <Delete className="text-normal" sx={{ fontSize: "30pt" }} />
               </button>
             </div>
           )}

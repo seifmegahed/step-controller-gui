@@ -322,3 +322,7 @@ h1 {
 .display-none {
   display: none;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
