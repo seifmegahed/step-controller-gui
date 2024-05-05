@@ -1,6 +1,7 @@
 import { DeviceType } from "../utils/fetchServerUtils";
 import KeyValuePair from "./KeyValuePair";
-import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
+import ArrowDropDown from "../components/Icons/ArrowDropDown";
+import ArrowDropUp from "../components/Icons/ArrowDropUp";
 
 type DeviceComponentType = {
   master: boolean;
@@ -44,14 +45,14 @@ const Device = ({
             className="text-normal no-border position-button control-button"
             disabled={device.position === 0}
           >
-            <ArrowDropUp sx={{fontSize: "20pt"}} />
+            <ArrowDropUp className="medium" />
           </button>
           <button
             onClick={() => handleShiftDown(device)}
             className="text-normal no-border position-button control-button"
             disabled={device.position === devicesLength - 1}
           >
-            <ArrowDropDown sx={{fontSize: "20pt"}} />
+            <ArrowDropDown className="medium" />
           </button>
         </div>
         <div className="flex-column">

@@ -1,4 +1,8 @@
-import { FastForward, FastRewind, Pause, PlayArrow } from "@mui/icons-material";
+import FastForward from "../components/Icons/FastForward";
+import FastRewind from "../components/Icons/FastRewind";
+import Pause from "../components/Icons/Pause";
+import PlayArrow from "../components/Icons/PlayArrow";
+
 import { sendSlowDown, sendSpeedUp } from "../utils/fetchServerUtils";
 
 const PlaybackPage = ({
@@ -14,19 +18,23 @@ const PlaybackPage = ({
         onClick={sendSlowDown}
         className="control-button floating-button play-pause"
       >
-        <FastRewind sx={{fontSize: "32pt"}} />
+        <FastRewind className="medium-large" />
       </button>
       <button
         onClick={updatePlay}
         className="control-button floating-button play-pause"
       >
-        {play ? <PlayArrow sx={{fontSize: "32pt"}} /> : <Pause sx={{fontSize: "32pt"}} />}
+        {play ? (
+          <PlayArrow className="medium-large" />
+        ) : (
+          <Pause className="medium-large" />
+        )}
       </button>
       <button
         onClick={sendSpeedUp}
         className="control-button floating-button play-pause"
       >
-      <FastForward sx={{fontSize: "32pt"}} />
+        <FastForward className="medium-large" />
       </button>
     </div>
   );

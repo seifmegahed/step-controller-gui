@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { Add, Remove } from "@mui/icons-material";
+import Add from "../components/Icons/Add";
+import Remove from "../components/Icons/Remove";
 
 import { DeviceType, setColors } from "../utils/fetchServerUtils";
 import { colorsRGB } from "../utils/colors";
@@ -62,7 +63,7 @@ const ArrangementPage = ({
           onClick={handleRowDecrement}
           className="control-button rows-button"
         >
-          <Remove sx={{ fontSize: "18pt" }} />
+          <Remove className="medium" />
         </button>
         <button
           disabled={true}
@@ -75,7 +76,7 @@ const ArrangementPage = ({
           onClick={handleRowIncrement}
           className="control-button rows-button"
         >
-          <Add sx={{ fontSize: "18pt" }} />
+          <Add className="medium" />
         </button>
       </div>
       <div className="grid-container">

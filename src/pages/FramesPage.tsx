@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
-import {
-  Add,
-  ChevronLeft,
-  ChevronRight,
-  ContentCopy,
-  Delete,
-  Save,
-} from "@mui/icons-material";
+import Add from "../components/Icons/Add";
+import ChevronLeft from "../components/Icons/ChevronLeft";
+import ChevronRight from "../components/Icons/ChevronRight";
+import ContentCopy from "../components/Icons/ContentCopy";
+import Delete from "../components/Icons/Delete";
+import Save from "../components/Icons/Save";
 
 import { DeviceType, fetchFrames, sendFrames } from "../utils/fetchServerUtils";
 import { colorsRGB } from "../utils/colors";
@@ -127,7 +125,7 @@ const FramesPage = ({
             onClick={decrementFrame}
             className="control-button no-border frame-button"
           >
-            <ChevronLeft className="text-normal" sx={{ fontSize: "36pt" }} />
+            <ChevronLeft className="medium-large icon-normal" />
           </button>
           <div
             className="step-grid"
@@ -149,21 +147,21 @@ const FramesPage = ({
               className="control-button no-border frame-button"
               disabled={frames.length === maxNumberOfFrames}
             >
-              <ContentCopy className="text-normal" sx={{ fontSize: "26pt" }} />
+              <ContentCopy className="medium-large icon-normal" />
             </button>
             <button
               onClick={incrementFrame}
               className="control-button no-border frame-button"
               disabled={frame === frames.length - 1}
             >
-              <ChevronRight className="text-normal" sx={{ fontSize: "36pt" }} />
+              <ChevronRight className="medium-large icon-normal" />
             </button>
             <button
               onClick={() => addFrame(frame)}
               className="control-button no-border frame-button"
               disabled={frames.length === maxNumberOfFrames}
             >
-              <Add className="text-normal" sx={{ fontSize: "30pt" }} />
+              <Add className="medium-large icon-normal" />
             </button>
           </div>
           {changed && (
@@ -172,7 +170,7 @@ const FramesPage = ({
                 onClick={saveFrames}
                 className="control-button no-border floating-button"
               >
-                <Save className="text-normal" sx={{ fontSize: "30pt" }} />
+                <Save className="medium-large icon-normal" />
               </button>
             </div>
           )}
@@ -182,7 +180,7 @@ const FramesPage = ({
                 onClick={() => deleteFrame(frame)}
                 className="control-button no-border floating-button"
               >
-                <Delete className="text-normal" sx={{ fontSize: "30pt" }} />
+                <Delete className="medium-large icon-normal" />
               </button>
             </div>
           )}

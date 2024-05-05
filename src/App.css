@@ -99,6 +99,7 @@ html {
   border: 1px solid #75869b;
   background-color: inherit;
   color: inherit;
+  fill: white;
   cursor: pointer;
   transition: 1s;
   display: flex;
@@ -114,6 +115,7 @@ html {
   background-color: initial;
   cursor: initial;
   color: #75869b;
+  fill: #75869b;
 }
 
 .control-button:hover:disabled {
@@ -292,6 +294,7 @@ h1 {
   width: 70px;
   background-color: #75869b;
   color: #1b2128;
+  fill: #1b2128;
   font-size: 30pt;
   position: relative;
 }
@@ -325,4 +328,8 @@ h1 {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.icon-normal {
+  fill: inherit;
 }
