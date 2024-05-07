@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Cut and Download Youtube Videos</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+		<link rel="stylesheet" href="/assets/css/all.ytcutter.css" />
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic|Source+Code+Pro:400" />
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144249614-1"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-144249614-1');
+		</script>
+</head>
+	<body class="is-preload">
+
+        
+        <!-- Header -->
+        <section id="header">
+            <div id="linkone">
+                <div id="singup">
+                    <a href="#" id="buy_link">Register</a> |
+                    <a href="#" id="login_link">Login</a>
+                </div>
+                <div id="account" style="display:none">
+                    <span id="welcome"></span>
+                    <a href="#" id="account_link">My Account</a> |
+                    <a href="#" id="logout_link">Logout</a>
+                </div>
+            </div>
+            <div class="languages">
+                <a href="/"><img src="/assets/images/en_lang.gif"></a>
+                <a href="/de/"><img src="/assets/images/de_lang.gif"></a>
+                <a href="/es/"><img src="/assets/images/es_lang.gif"></a>
+                <a href="/fr/"><img src="/assets/images/fr_lang.gif"></a>
+                <a href="/it/"><img src="/assets/images/it_lang.gif"></a>
+                <a href="/pt/"><img src="/assets/images/br_lang.gif"></a>
+                <a href="/ru/"><img src="/assets/images/ru_lang.gif"></a>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a section="#one" href="/#one" class="active">Home</a></li>
+                    <li><a section="#two" href="/#two">Features</a></li>
+                    <li><a section="#three" href="/#three">Help</a></li>
+                </ul>
+            </nav>
+            <footer>
+                <ul class="icons">
+                    <li><a href="https://twitter.com/home?status=https%3A//ytcutter.com" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ytcutter.com" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="/cdn-cgi/l/email-protection#a5cccbc3cae5dcd1c6d0d1d1c0d78bc6cac8" class="icon fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+            </footer>
+        </section>
+
+		<!-- Wrapper -->
+        <div id="wrapper">
+
+            <div id="title">
+                <!-- One -->
+                <section>
+                    <div class="container">
+                        <header class="major">
+                            <h2 id="logo">
+                                <a href="/">YT Cutter
+                                <img src="/assets/images/ytcutter.png">
+                                </a>
+                            </h2>
+                            <p>
+                                Extract favorite scenes from YouTube videos                            </p>
+                        </header>
+                    </div>
+                </section>
+            </div>
+<style>
+#instr a {
+    color: blue;
+}
+code {
+    display:block;
+}
+</style>
+<div id="instr" style="padding: 20px">
+You can't download your clip from this website, but here are some
+instructions how to create it on your own:
+<br><br>
+<ol>
+<li>
+    Run <b>cmd.exe</b> - it'll open a <b>console window</b>. Enter:
+    <code>
+        mkdir C:\YTcutter
+    </code>
+    This will create a YTcutter folder on C: drive where you'll keep all the required files.
+</li>
+<li>
+    Then type:
+    <code>
+        cd C:\YTcutter
+    </code>
+    To go into that folder.
+</li>
+<li>
+    Download <a target="_blank" href="https://github.com/yt-dlp/yt-dlp#release-files">YT-DLP</a> which you'll use to download videos from youtube.
+    <br>
+    Move the downloaded file to C:\YTcutter. Now go back to your console window and enter:
+    <code>
+        yt-dlp
+    </code>
+    You should see some usage info from yt-dlp. If you see something like "command not found" check if your yt-dlp.exe file is in C:\YTcutter folder.
+</li>
+<li>
+    Similarily download <a target="_blank" href="https://ffmpeg.org/download.html">FFMPEG</a> which you'll use to cut fragments from downloaded videos
+    (<a target="_blank" href="https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip">direct link</a> for Windows OS).
+    <br>
+    In the downloaded archive you're only interested in the bin\ffmpeg.exe file. Extract that file to C:\YTcutter.
+    <br>
+    Go back to your console window and type:
+    <code>
+        ffmpeg
+    </code>
+    You should see some text output from ffmpeg. If you see something like "command not found" check if your ffmpeg.exe file is in C:\YTcutter folder.
+</li>
+<li>
+    If everything works correctly, go to your console window and enter (copy &amp; paste it):
+    <code>
+        yt-dlp "https://www.youtube.com/watch?v=ksjHzA1QAcg" -o ksjHzA1QAcg.webm
+    </code>
+    This will download the entire video to your computer. If there's some error, make sure you have the latest version of yt-dlp (it changes pretty often)
+</li>
+<li>
+    Now run ffmpeg to cut your fragment:
+    <code>
+        ffmpeg -ss 100 -t 60 -i ksjHzA1QAcg.webm -y -c copy video-100-60-ksjHzA1QAcg.mp4    </code>
+    <br>
+
+    Your fragment is now in folder C:\YTcutter in file <b>video-100-60-ksjHzA1QAcg.mp4</b>
+    <br>
+    Congratulations.
+
+    <br><br>
+    If you want more clips from this video, next time skip steps 1,3,4,5 and only run commands from step 2 and 6.
+    <br>
+    If you're done, you can delete the downloaded video to save disk space:
+    <code>
+        del ksjHzA1QAcg.webm
+    </code>
+</li>
+</ol>
+
+<br><br><br>
+
+Didn't work for you? Here are some other methods:
+<ul>
+<li>
+    Record <a href="https://www.youtube.com/results?search_query=record+screen+windows">your screen</a> while playing your YT video.
+</li>
+<li>
+    Record <a href="https://www.youtube.com/results?search_query=record+internal+audio+windows">whatever audio is playing</a> on your computer.
+</li>
+<li>
+    Just press Print Screen (Prt Scr) key while playing your video to make a screenshot of your screen.
+</li>
+
+
+
+</ul>
+<br><br>
+In any case ask YT and video author for a permission before you save a video on your disk.
+
+</div>
+				<!-- Footer -->
+                <section id="footer">
+                    <div class="container">
+                        <ul class="copyright">
+                            Credits:                            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                            <li>&copy; <a href='http://www.stockunlimited.com'>Image by StockUnlimited</a></li>
+                            <li><a href="http://ytdl-org.github.io/youtube-dl/">youtube-dl</a></li>
+                            <li><a href="https://ffmpeg.org/">FFmpeg</a></li>
+                            <li><a title="Terms of Service Template Generator" href="https://getterms.io/">GetTerms.io</a></li>
+                            <li><a href="/en/tos.html">Terms of service</a></li>
+                            <li><a href="/en/privacy.html">Privacy policy</a></li>
+                        </ul>
+                    </div>
+                </section>
+			</div>
+
+
+
+		<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.youtube.com/iframe_api"></script>
+		<script src="/assets/js/all.ytcutter.js"></script>
+		<script src="/assets/js/messages.en.js"></script>
+
+
+		<script>
+		document.write('<scr' + 'ipt>(function(d,z,s){s.src="https://"+d+"/400/"+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})("outsliggooa.com",6081516,document.createElement("script"))</scr' + 'ipt>');
+		document.write('<scr' + 'ipt>(function(s,u,z,p){s.src=u,s.setAttribute("data-zone",z),p.appendChild(s);})(document.createElement("script"),"https://inklinkor.com/tag.min.js",6081568,document.body||document.documentElement)</scr' + 'ipt>');
+		</script>
+	</body>
+</html>

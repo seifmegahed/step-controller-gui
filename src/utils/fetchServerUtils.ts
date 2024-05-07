@@ -1,9 +1,3 @@
-export type DeviceDataType = {
-  id: number;
-  ssid?: string;
-  ip?: string;
-};
-
 export type DeviceType = {
   id: number;
   position: number;
@@ -11,17 +5,61 @@ export type DeviceType = {
   calibrate: boolean;
 };
 
-export async function fetchDeviceData(): Promise<DeviceDataType> {
+export type DeviceInfoType = {
+  id: number;
+  ssid: string;
+  ip: string;
+  play: boolean;
+  mode: boolean;
+  devices: DeviceType[];
+  frameWidth: number;
+};
+
+export const initDevice = {
+  id: 0,
+  ssid: "",
+  ip: "",
+  play: false,
+  mode: false,
+  devices: [
+    { id: 0, position: 0, blink: false, calibrate: false },
+    { id: 1, position: 1, blink: false, calibrate: false },
+    { id: 2, position: 2, blink: false, calibrate: false },
+    { id: 3, position: 3, blink: false, calibrate: false },
+  ],
+
+  frameWidth: 1,
+};
+
+export async function fetchDeviceData(): Promise<DeviceInfoType> {
   try {
     let res = await fetch("api/device-info");
     let result = await res.json();
 
-    return result;
+    return {
+      ...result,
+      devices: result.devices.map((deviceId: number, index: number) => ({
+        id: deviceId,
+        position: index,
+        blink: false,
+        calibrate: false,
+      })),
+    };
   } catch (error) {
     console.log(error);
-    return {
-      id: 0,
-    };
+    return initDevice;
+  }
+}
+
+export async function fetchScore(): Promise<number> {
+  try {
+    let res = await fetch("api/fetch-score");
+    let result = await res.json();
+
+    return result.score;
+  } catch (error) {
+    console.log(error);
+    return 0;
   }
 }
 
@@ -90,7 +128,7 @@ export const sendBlink = async (deviceId: number, state: boolean) => {
   }
 };
 
-export const sendChangeArray = async (devices: DeviceDataType[]) => {
+export const sendChangeArray = async (devices: DeviceType[]) => {
   try {
     const rawResponse = await fetch(`api/change-arrangement`, {
       method: "POST",
@@ -166,9 +204,9 @@ export const sendPause = async () => {
   }
 };
 
-export const sendSpeedUp = async () => {
+export const sendFramesMode = async () => {
   try {
-    const rawResponse = await fetch(`api/speed-up`);
+    const rawResponse = await fetch(`api/frames-mode`);
 
     const content = rawResponse.status;
     console.log(content);
@@ -177,9 +215,9 @@ export const sendSpeedUp = async () => {
   }
 };
 
-export const sendSlowDown = async () => {
+export const sendGameMode = async () => {
   try {
-    const rawResponse = await fetch(`api/slow-down`);
+    const rawResponse = await fetch(`api/game-mode`);
 
     const content = rawResponse.status;
     console.log(content);
@@ -187,6 +225,28 @@ export const sendSlowDown = async () => {
     console.log(error);
   }
 };
+
+export async function sendSpeedUp(): Promise<number> {
+  try {
+    const res = await fetch(`api/speed-up`);
+    const response = await res.json();
+    return response.speed;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+}
+
+export async function sendSlowDown(): Promise<number> {
+  try {
+    const res = await fetch(`api/slow-down`);
+    const response = await res.json();
+    return response.speed;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+}
 
 export const setColors = async (colors: number[]) => {
   try {
